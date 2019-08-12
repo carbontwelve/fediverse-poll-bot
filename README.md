@@ -11,6 +11,8 @@ I will need to update myself on the etique of this, but it may be nessessary for
 
 For the front end we should have the polls segmented into the following filters: _Currently Open_, _Closing in n days time_, _Recently Closed_ and _Closed_. Each open poll will have a refresh button/link that the visitor can use to manually prompt an update of the stats if they decide those displayed are too out of date. I am thinking something very simple, along the lines of a paginated grid with a heading. Maybe including a search box for finding polls. Each poll should link through to the status on the source domain.
 
+The front end can use this [api](https://docs.joinmastodon.org/api/rest/polls/#resource-information) to obtain up to date stats for the poll if it's still open.
+
 It would be nice to collect some agregate stats for things like polls opened/closed in the past 30 days, total votes cast in the past 30 days, etc maybe with a graph showing open polls over time, votes over time, etc.
 
 The bot should have some fediverse presence so that an account can `@` the bot with words to the effect of "Forget Me" or simply "#nobot" and have any poll status found linked to that account imedietly deleted from the bots database. Similarly if someone has polls in their history that aren't found on the bots website due to being from before the bot going live, they coult message with a command like "Scrape Me". If someone has asked the bot to forget them they can undo it with "Remember Me" and the bot will begin including polls they author into its collection, they will need to ask the bot to "Scrape Me" if they wish to have their historical polls re-included.
