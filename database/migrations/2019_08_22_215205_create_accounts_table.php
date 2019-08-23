@@ -10,9 +10,11 @@ class CreateAccountsTable extends Migration
     public function up()
     {
         Schema::create('accounts', function(Blueprint $table) {
-            $table->string('id');
-            $table->timestamps();
+            $table->increments('local_id');
             $table->integer('server_id');
+            $table->timestamps();
+
+            $table->string('id');
             $table->string('username');
             $table->string('acct');
             $table->string('display_name');
@@ -29,7 +31,7 @@ class CreateAccountsTable extends Migration
             $table->integer('statuses_count');
 
             $table->foreign('server_id')
-                ->references('id')->on('servers')
+                ->references('local_id')->on('servers')
                 ->onDelete('cascade');
         });
     }

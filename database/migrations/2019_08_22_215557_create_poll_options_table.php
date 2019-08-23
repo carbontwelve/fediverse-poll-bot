@@ -10,14 +10,15 @@ class CreatePollOptionsTable extends Migration
     public function up()
     {
         Schema::create('poll_options', function(Blueprint $table) {
-            $table->increments('id');
+            $table->increments('local_id');
+            $table->integer('poll_id');
             $table->timestamps();
 
-            $table->integer('poll_id');
             $table->string('title');
 			$table->integer('votes_count');
+
             $table->foreign('poll_id')
-                ->references('id')->on('polls')
+                ->references('local_id')->on('polls')
                 ->onDelete('cascade');
         });
     }

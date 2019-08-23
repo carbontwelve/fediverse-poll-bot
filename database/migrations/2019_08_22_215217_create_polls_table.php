@@ -9,16 +9,18 @@ class CreatePollsTable extends Migration
     public function up()
     {
         Schema::create('polls', function(Blueprint $table) {
-            $table->integer('id');
-            $table->string('status_id');
+            $table->increments('local_id');
+            $table->integer('status_id');
             $table->timestamps();
+
+            $table->integer('id');
             $table->timestamp('expires_at');
             $table->boolean('expired');
             $table->boolean('multiple');
             $table->integer('votes_count');
 
             $table->foreign('status_id')
-                ->references('id')->on('status')
+                ->references('local_id')->on('status')
                 ->onDelete('cascade');
         });
     }

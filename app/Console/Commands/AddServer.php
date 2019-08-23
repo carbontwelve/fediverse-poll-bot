@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\MastodonApiPublicTimelineJob;
-use App\Servers;
+use App\Server;
 use Illuminate\Console\Command;
 
 class AddServer extends Command
@@ -39,10 +39,16 @@ class AddServer extends Command
      */
     public function handle()
     {
-        $model = new Servers(['domain' => $this->argument('domain')]);
+        // @todo check domain has a valid mastodon api endpoint and error if not
 
-        $model->save();
+        $model = new Server(['domain' => $this->argument('domain')]);
 
-        dd($model);
+        if (! $model->save()) {
+            $this->line('<error>[!]</error> There was an error saving that domain to the database');
+            return 1;
+        }
+
+        $this->line("<info>[*]</info> successfully added <info>{$model->domain}</info>");
+        return 0;
     }
 }

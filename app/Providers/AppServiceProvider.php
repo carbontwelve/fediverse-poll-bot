@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\ServiceProvider;
+use Wn\Generators\CommandsServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +16,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         if ($this->app->environment() == 'local') {
-            $this->app->register('Wn\Generators\CommandsServiceProvider');
+            $this->app->register(CommandsServiceProvider::class);
+            $this->app->register(IdeHelperServiceProvider::class);
         }
     }
 }

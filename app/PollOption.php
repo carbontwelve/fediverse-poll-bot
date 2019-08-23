@@ -1,9 +1,6 @@
 <?php namespace App;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
-class Emoji extends LocalModel
+class PollOption extends LocalModel
 {
     /**
      * The attributes that are mass assignable.
@@ -19,11 +16,11 @@ class Emoji extends LocalModel
     ];
 
     /**
-     * @return HasMany|Collection|Server[]
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|Poll
      */
-    public function server()
+    public function poll()
     {
-        return $this->elongsTo(Server::class, 'server_id');
+        return $this->belongsTo(Poll::class, 'poll_id');
     }
 
 }

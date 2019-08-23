@@ -3,8 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Jobs\MastodonApiPublicTimelineJob;
-use App\Servers;
+use App\Server;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
 
 class Start extends Command
 {
@@ -39,9 +40,18 @@ class Start extends Command
      */
     public function handle()
     {
-        /** @var Servers $server */
-        foreach (Servers::all() as $server) {
+        /** @var Collection|Server[] $servers */
+        $servers = Server::all();
+
+        if ($servers->count() === 0) {
+            $this->line('<error>[!]</error> You have not yet configured any servers, please use the <info>server:add</info> command to do so');
+            return 1;
+        }
+
+        foreach ($servers as $server) {
             dispatch(new MastodonApiPublicTimelineJob($server));
         }
+
+        return 0;
     }
 }

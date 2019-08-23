@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Accounts;
-use App\Servers;
+use App\Account;
+use App\Server;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use stdClass;
@@ -15,9 +15,9 @@ class MastodonApiPublicTimelineJob extends Job
     /**
      * Create a new job instance.
      *
-     * @param Servers $server
+     * @param Server $server
      */
-    public function __construct(Servers $server)
+    public function __construct(Server $server)
     {
         $this->server = $server;
     }
@@ -81,11 +81,11 @@ class MastodonApiPublicTimelineJob extends Job
             'statuses_count' => $status->account->statuses_count
         ];
 
-        /** @var null|Accounts $account */
+        /** @var null|Account $account */
         if ($account = $this->server->accounts()->where('id', '=', $status->account->id)->first()) {
             $account->update($accountFields);
         } else {
-            $account =  $this->server->accounts()->save(new Accounts($accountFields));
+            $account =  $this->server->accounts()->save(new Account($accountFields));
         }
 
     }

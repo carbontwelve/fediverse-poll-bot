@@ -10,10 +10,14 @@ class CreateStatusTable extends Migration
     public function up()
     {
         Schema::create('status', function(Blueprint $table) {
-            $table->string('id');
-            $table->timestamps();
-            $table->string('account_id');
+            // Local properties
+            $table->increments('local_id');
+            $table->integer('account_id');
             $table->integer('server_id');
+            $table->timestamps();
+
+            // Api properties
+            $table->string('id');
             $table->string('in_reply_to_id');
             $table->string('in_reply_to_account_id');
             $table->boolean('sensitive');
@@ -28,8 +32,13 @@ class CreateStatusTable extends Migration
             $table->string('content');
             //$table->reblog             interface{} `json:"reblog"`
 
+            // Relationships
+            $table->foreign('server_id')
+                ->references('local_id')->on('servers')
+                ->onDelete('cascade');
+
             $table->foreign('account_id')
-                ->references('id')->on('accounts')
+                ->references('local_id')->on('accounts')
                 ->onDelete('cascade');
         });
     }
