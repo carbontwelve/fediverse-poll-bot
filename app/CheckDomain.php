@@ -8,7 +8,6 @@ use stdClass;
 
 class CheckDomain
 {
-
     /** @var string */
     private $domain;
 
@@ -53,7 +52,7 @@ class CheckDomain
         // Already exists in our database
         //
         if ($found = Server::whereDomain($this->domain)->first()) {
-            $this->error = 'That domain already exists in the database.';
+            $this->error = 'The domain ['.$this->domain.'] already exists in the database.';
             return false;
         }
 
@@ -67,7 +66,7 @@ class CheckDomain
         try {
             $response = $client->request('GET', '/');
             if ($response->getStatusCode() !== 200) {
-                $this->error = 'The domain did not respond with a 200 status code.';
+                $this->error = 'The domain ['.$this->domain.'] did not respond with a 200 status code.';
                 return false;
             }
         } catch (GuzzleException $e) {
@@ -81,7 +80,7 @@ class CheckDomain
         try {
             $response = $client->request('GET', '/api/v1/instance', ['headers' => ['Accept' => 'application/json', 'Content-type' => 'application/json']]);
             if ($response->getStatusCode() !== 200) {
-                $this->error = 'Domain does not support the Mastodon API.';
+                $this->error = 'Domain ['.$this->domain.'] does not support the Mastodon API.';
                 return false;
             }
 
@@ -110,7 +109,7 @@ class CheckDomain
             return true;
         }
 
-        $this->error = 'There was an error saving that domain to the database.';
+        $this->error = 'There was an error saving ['.$this->domain.'] to the database.';
         return false;
     }
 }
