@@ -7,6 +7,7 @@ use App\Server;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 
+// @todo Run this on a minute cron
 class Start extends Command
 {
     /**
@@ -51,6 +52,8 @@ class Start extends Command
         foreach ($servers as $server) {
             dispatch(new MastodonApiPublicTimelineJob($server));
         }
+
+        $this->line('Dispatched <info>'. count($servers).'</info> jobs.');
 
         return 0;
     }

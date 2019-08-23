@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\MastodonApiPublicTimelineJob;
+use App\CheckDomain;
 use App\Server;
 use Illuminate\Console\Command;
 
@@ -39,16 +39,22 @@ class AddServer extends Command
      */
     public function handle()
     {
+        // @todo check if domain supports polls. Mastodon added in 2.8.0. Check when Pleroma did...
         // @todo check domain has a valid mastodon api endpoint and error if not
 
-        $model = new Server(['domain' => $this->argument('domain')]);
+        $validator = new CheckDomain($this->argument('domain'));
 
-        if (! $model->save()) {
-            $this->line('<error>[!]</error> There was an error saving that domain to the database');
+        if (!$validator->validate()){
+            $this->line('<error>[!]</error> '. $validator->getError());
             return 1;
         }
 
-        $this->line("<info>[*]</info> successfully added <info>{$model->domain}</info>");
+        if (!$validator->create()) {
+            $this->line('<error>[!]</error> '. $validator->getError());
+            return 1;
+        }
+
+        $this->line("<info>[*]</info> successfully added <info>{$validator->getDomain()}</info>");
         return 0;
     }
 }

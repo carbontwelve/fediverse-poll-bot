@@ -12,9 +12,18 @@ class CreateServersTable extends Migration
             $table->increments('local_id');
             $table->timestamps();
 
-            $table->string('domain');
+            $table->text('version');
+            $table->text('title');
+            $table->text('thumbnail')->nullable();
+            $table->text('description');
+            $table->json('poll_limits')->nullable(); // Pleroma only?
+            $table->string('domain')->unique();
             $table->timestamp('last_scraped_at')->nullable();
             $table->string('since_id')->nullable();
+
+            $table->integer('scraped')->default(0);
+            $table->integer('statuses_parsed')->default(0);
+            $table->integer('polls_found')->default(0);
         });
     }
 

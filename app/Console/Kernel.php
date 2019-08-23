@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\AddServer;
+use App\Console\Commands\Info;
 use App\Console\Commands\Start;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
@@ -16,7 +17,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Start::class,
-        AddServer::class
+        AddServer::class,
+        Info::class,
     ];
 
     /**

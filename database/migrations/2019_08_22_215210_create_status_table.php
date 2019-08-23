@@ -4,6 +4,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Class CreateStatusTable
+ * @see https://docs.joinmastodon.org/api/entities/#status
+ */
 class CreateStatusTable extends Migration
 {
 
@@ -18,18 +22,19 @@ class CreateStatusTable extends Migration
 
             // Api properties
             $table->string('id');
-            $table->string('in_reply_to_id');
-            $table->string('in_reply_to_account_id');
+            $table->string('in_reply_to_id')->nullable();
+            $table->string('in_reply_to_account_id')->nullable();
             $table->boolean('sensitive');
-            $table->string('spoiler_text');
+            $table->text('spoiler_text');
             $table->string('visibility');
-            $table->string('language');
-            $table->string('uri');
-            $table->string('url');
+            $table->string('language')->nullable();
+            $table->boolean('pinned')->nullable();
+            $table->text('uri');
+            $table->text('url');
             $table->integer('replies_count');
             $table->integer('reblogs_count');
             $table->integer('favourites_count');
-            $table->string('content');
+            $table->text('content');
             //$table->reblog             interface{} `json:"reblog"`
 
             // Relationships

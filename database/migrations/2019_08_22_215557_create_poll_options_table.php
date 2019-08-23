@@ -4,6 +4,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Class CreatePollOptionsTable
+ * @see https://docs.joinmastodon.org/api/entities/#poll-option
+ */
 class CreatePollOptionsTable extends Migration
 {
 
@@ -15,7 +19,7 @@ class CreatePollOptionsTable extends Migration
             $table->timestamps();
 
             $table->string('title');
-			$table->integer('votes_count');
+			$table->integer('votes_count')->nullable();
 
             $table->foreign('poll_id')
                 ->references('local_id')->on('polls')
